@@ -13,7 +13,7 @@ function LargeCard({ img, title, descr, buttonText }) {
           className="rounded-3xl "
         />
       </div>
-      <div className="absolute top-32 left-12">
+      <div className="absolute top-20 left-12">
         <h3 className=" text-4xl mb-3 ">{title}</h3>
         <h4 className="font-semibold text-sm">{descr}</h4>
         <button className="text-white bg-gray-900 text-sm px-4 py-2 mt-5 rounded-lg">
