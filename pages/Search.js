@@ -1,13 +1,35 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { format } from "date-fns";
 import InfoCard from "../components/InfoCard";
+import Map from "../components/Map";
+
 function Search({ searchResults }) {
   const router = useRouter();
   console.log(router);
   const { location, startDate, endDate, noOfGuests } = router.query;
+  const [width, setWidth] = useState(
+    typeof window !== "undefined" && window.innerWidth
+  );
+  const updateSize = () => setWidth(window.innerWidth);
+
+  const isXlBreakpoint = () => {
+    if (width > 1280) {
+      setIsXl(true);
+    } else {
+      setIsXl(false);
+    }
+  };
+
+  useEffect(() => {
+    window.onresize = updateSize;
+    isXlBreakpoint();
+  }, [width]);
+  const [isXl, setIsXl] = useState(false);
+
+  console.log(width, isXl);
 
   const formattedStartDate = format(new Date(startDate), "dd MMMM yy");
   const formattedEndDate = format(new Date(endDate), "dd MMMM yy");
@@ -16,7 +38,7 @@ function Search({ searchResults }) {
     <div className="">
       <Header />
 
-      <main className="flex">
+      <main className="flex flex-col xl:flex-row">
         <section className="flex-grow pt-14 px-6">
           <p>
             300+ stays - {range} - {noOfGuests} - guests
@@ -48,6 +70,9 @@ function Search({ searchResults }) {
               />
             ))}
           </div>
+        </section>
+        <section className=" xl:inline min-w-[600px] ">
+          <Map searchResults={searchResults} height={isXl ? "100%" : "400px"} />
         </section>
       </main>
       <Footer />
